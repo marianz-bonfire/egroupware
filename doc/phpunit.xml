@@ -26,11 +26,19 @@
 	        </testsuite>
 		<testsuite name="Apps">
 			<!-- Apps with test directory -->
-            <!-- Skip these for now, though they do mostly work locally
 			<directory>../*/tests/</directory>
-			-->
 
-			<exclude>../api</exclude>
+            <!-- Already done under "Api" testsuite -->
+            <exclude>../api</exclude>
+
+            <!-- Not properly working yet -->
+            <exclude>../admin</exclude>
+            <exclude>../collabora</exclude>
+            <exclude>../infolog</exclude>
+            <exclude>../policy</exclude>
+            <exclude>../projectmanager</exclude>
+            <exclude>../stylite</exclude>
+            <exclude>../tracker</exclude>
             <exclude>../invoices</exclude>
 		</testsuite>
     </testsuites>

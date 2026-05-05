@@ -27,6 +27,9 @@ class ImportParticipantsTest extends \EGroupware\Api\AppTest
 
 	public static function setUpBeforeClass() : void
 	{
+		// Not sure what's going on here, but the tests run fine independantly but not as part of the suite.
+		// Some other test may be damaging the session, tearDownAfterClass() lets them run.
+		parent::tearDownAfterClass();
 		parent::setUpBeforeClass();
 
 	}
