@@ -1301,6 +1301,7 @@ class calendar_ical extends calendar_boupdate
 				$event_info = $this->get_event_info($event);
 			}
 
+			date_default_timezone_set($GLOBALS['egw_info']['server']['server_timezone']);
 			// common adjustments for existing events
 			if (is_array($event_info['stored_event']))
 			{
@@ -2658,7 +2659,11 @@ class calendar_ical extends calendar_boupdate
 					}
 
 					// set event timezone from dtstart, if specified there
-					if (!empty($attributes['params']['TZID']) && !$isDate)
+					if(is_callable([$attributes['value'], 'getTimezone']))
+					{
+						$event['tzid'] = $attributes['value']->getTimezone()->getName();
+					}
+					else if(!empty($attributes['params']['TZID']) && !$isDate)
 					{
 						// import TZID, if PHP understands it (we only care about TZID of starttime,
 						// as we store only a TZID for the whole event)
@@ -2694,7 +2699,6 @@ class calendar_ical extends calendar_boupdate
 					}
 					// Horde seems not to distinguish between an explicit UTC time postfixed with Z and one without
 					// assuming for now UTC to pass CalDAVTester tests
-					// ToDo: fix Horde_Icalendar to return UTC for timestamp postfixed with Z
 					elseif (!$isDate)
 					{
 						$event['tzid'] = 'UTC';

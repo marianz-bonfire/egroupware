@@ -1693,16 +1693,16 @@
         },
         {
             "name": "egroupware/icalendar",
-            "version": "2.2.3",
+		  "version": "2.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EGroupware/Icalendar.git",
-                "reference": "816fc5ed14bf64baa26f75c6d2141b722a5e7570"
+			  "reference": "6f8398721abd671f49f9279180dfc4c590f15db2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EGroupware/Icalendar/zipball/816fc5ed14bf64baa26f75c6d2141b722a5e7570",
-                "reference": "816fc5ed14bf64baa26f75c6d2141b722a5e7570",
+			  "url": "https://api.github.com/repos/EGroupware/Icalendar/zipball/6f8398721abd671f49f9279180dfc4c590f15db2",
+			  "reference": "6f8398721abd671f49f9279180dfc4c590f15db2",
                 "shasum": ""
             },
             "require": {
@@ -1751,7 +1751,7 @@
             "description": "iCalendar and vCard library",
             "homepage": "https://www.horde.org/libraries/Horde_Icalendar",
             "support": {
-                "source": "https://github.com/EGroupware/Icalendar/tree/2.2.3"
+			  "source": "https://github.com/EGroupware/Icalendar/tree/2.2.4"
             },
             "time": "2024-07-02T00:00:00+00:00"
         },
