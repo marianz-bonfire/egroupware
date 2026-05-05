@@ -58,7 +58,7 @@ jobs:
           COMPOSE="docker compose --project-directory $GITHUB_WORKSPACE/sources \
             -f $GITHUB_WORKSPACE/sources/doc/docker/docker-compose.yml \
             -f $GITHUB_WORKSPACE/sources/doc/docker/docker-compose.ci.yml"
-          $COMPOSE up -d --force-recreate db egroupware
+          $COMPOSE up -d --force-recreate db egroupware nginx
 
       - name: Install PHP extensions
         run: |
