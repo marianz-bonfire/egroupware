@@ -16,8 +16,9 @@ require_once __DIR__.'/../../../api/tests/CalDAVTest.php';
 
 use EGroupware\Api\CalDAVTest;
 use GuzzleHttp\RequestOptions;
+use PHPUnit\Framework\Attributes\Depends;
 
-class CalDAVcreateReadDelete extends CalDAVTest
+class CreateReadDeleteTest extends CalDAVTest
 {
 	/**
 	 * Test accessing CalDAV without authentication
@@ -91,6 +92,7 @@ EOICAL;
 	/**
 	 * Read created event
 	 */
+	#[Depends('testCreate')]
 	public function testRead()
 	{
 		$response = $this->getClient()->get($this->url(self::EVENT_URL));
@@ -102,6 +104,7 @@ EOICAL;
 	/**
 	 * Delete created event
 	 */
+	#[Depends('testCreate')]
 	public function testDelete()
 	{
 		$response = $this->getClient()->delete($this->url(self::EVENT_URL));
@@ -112,6 +115,7 @@ EOICAL;
 	/**
 	 * Read created event
 	 */
+	#[Depends('testDelete')]
 	public function testReadDeleted()
 	{
 		$response = $this->getClient()->get($this->url(self::EVENT_URL));

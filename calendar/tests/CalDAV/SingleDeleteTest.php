@@ -31,7 +31,7 @@ use EGroupware\Api\Acl;
  * @uses   \calendar_groupdav::put()
  * @uses   \calendar_groupdav::get()
  */
-class CalDAVsingleDELETE extends CalDAVTest
+class SingleDeleteTest extends CalDAVTest
 {
 	/**
 	 * Users and their ACL for the test
@@ -48,6 +48,8 @@ class CalDAVsingleDELETE extends CalDAVTest
 		'other' => [],
 	];
 
+	// Keep track so we can be sure to clean up
+	protected $cal_ids = [];
 	/**
 	 * Create some users incl. ACL
 	 */
@@ -56,6 +58,26 @@ class CalDAVsingleDELETE extends CalDAVTest
 		parent::setUpBeforeClass();
 
 		self::createUsersACL(self::$users, 'calendar');
+	}
+
+	public function tearDown() : void
+	{
+		parent::tearDown();
+		$so = new \calendar_so();
+		foreach($this->cal_ids as $cal_id)
+		{
+			$so->delete($cal_id);
+		}
+		$this->cal_ids = [];
+	}
+
+	protected function addCalendarID($response)
+	{
+		$array = explode(":", trim(($response->getHeader('ETag')[0] ?? ""), '[]"') ?? "");
+		if(count($array) && $array[0])
+		{
+			$this->cal_ids[] = (int)$array[0];
+		}
 	}
 
 	/**
@@ -126,6 +148,7 @@ EOICAL;
 			],
 			RequestOptions::BODY => self::EVENT_BOSS_ATTENDEE_ICAL,
 		]);
+		$this->addCalendarID($response);
 		$this->assertHttpStatus([200,201], $response);
 		$this->assertIcal(self::EVENT_BOSS_ATTENDEE_ICAL, $response->getBody());
 
@@ -214,6 +237,7 @@ EOICAL;
 			],
 			RequestOptions::BODY => self::EVENT_BOSS_ORGANIZER_ICAL,
 		]);
+		$this->addCalendarID($response);
 		$this->assertHttpStatus([200,201], $response);
 		$this->assertIcal(self::EVENT_BOSS_ORGANIZER_ICAL, $response->getBody());
 
@@ -245,6 +269,7 @@ EOICAL;
 			],
 			RequestOptions::BODY => self::EVENT_BOSS_ORGANIZER_ICAL,
 		]);
+		$this->addCalendarID($response);
 		$this->assertHttpStatus([200,201], $response);
 		$this->assertIcal(self::EVENT_BOSS_ORGANIZER_ICAL, $response->getBody());
 
@@ -313,6 +338,7 @@ EOICAL;
 			],
 			RequestOptions::BODY => self::EVENT_SECRETARY_ATTENDEE_ICAL,
 		]);
+		$this->addCalendarID($response);
 		$this->assertHttpStatus([200,201], $response);
 		$this->assertIcal(self::EVENT_SECRETARY_ATTENDEE_ICAL, $response->getBody());
 
@@ -340,6 +366,7 @@ EOICAL;
 			],
 			RequestOptions::BODY => self::EVENT_SECRETARY_ATTENDEE_ICAL,
 		]);
+		$this->addCalendarID($response);
 		$this->assertHttpStatus([200,201], $response);
 		$this->assertIcal(self::EVENT_SECRETARY_ATTENDEE_ICAL, $response->getBody());
 

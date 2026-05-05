@@ -102,7 +102,7 @@ abstract class CalDAVTest extends TestCase
 	 * @param string $app app to create the rights for, default "calendar"
 	 * @throws \Exception
 	 */
-	protected function createUsersACL(array &$users, $app='calendar')
+	protected static function createUsersACL(array &$users, $app = 'calendar')
 	{
 		foreach($users as $user => $data)
 		{
