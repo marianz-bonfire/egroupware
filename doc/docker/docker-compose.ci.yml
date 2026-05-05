@@ -19,10 +19,6 @@ services:
     container_name: egwci-egroupware-db
     restart: "no"
 
-  nginx:
-    deploy:
-      replicas: 0
-
   push:
     deploy:
       replicas: 0

@@ -246,7 +246,7 @@ jobs:
 
           # Ensure share links resolve locally in CI
           $COMPOSE exec -T -w "$EGW_SRC_DIR" egroupware php setup/setup-cli.php \
-            --config default,"$EGW_CONFIG_USER","$EGW_CONFIG_PASSWD",hostname=localhost,webserver_url=http://localhost/egroupware
+            --config default,"$EGW_CONFIG_USER","$EGW_CONFIG_PASSWD",hostname=test,webserver_url=http://test/egroupware
 
       - name: Debug web access
         run: |
@@ -257,8 +257,8 @@ jobs:
           
           $COMPOSE exec -T egroupware sh -lc '
             which curl || apt-get update && apt-get install -y curl
-            echo "Testing localhost:"
-            curl -I -v http://localhost/ || true
+            echo "Testing 'test' URL:"
+            curl -I -v http://test/ || true
             echo
             echo "Listening ports:"
             ss -lntp || netstat -lntp || true
@@ -304,7 +304,7 @@ jobs:
 
           # Run tests
           $COMPOSE exec -T \
-            -e HTTP_HOST=localhost \
+            -e HTTP_HOST=test \
             -e HTTP_X_FORWARDED_PROTO=http \
             -e EGW_CONFIG_USER="$EGW_CONFIG_USER" \
             -e EGW_CONFIG_PASSWD="$EGW_CONFIG_PASSWD" \
