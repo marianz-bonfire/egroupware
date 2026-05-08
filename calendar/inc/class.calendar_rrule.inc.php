@@ -1152,7 +1152,7 @@ class calendar_rrule implements Iterator
 				}
 				else	// no day given, use the day of dtstart
 				{
-					$vcardData['recur_data'] |= 1 << (int)date('w',$vcardData['start']);
+					$vcardData['recur_data'] |= 1 << (int)$vcardData['start']->format('w');
 					$vcardData['recur_type'] = self::WEEKLY;
 				}
 				if ($days)

@@ -632,7 +632,7 @@ class calendar_uilist extends calendar_ui
 			$readonlys = null;
 			$this->get_rows($query,$checked,$readonlys,!in_array($action,array('ical','document')));	   // true = only return the id's
 			// Get rid of any extras (rows that aren't events)
-			if(in_array($action,array('ical','document')))
+			if(in_array($action, array('ical', 'document', 'delete')))
 			{
 				foreach($checked as $key => $event)
 				{
@@ -708,7 +708,7 @@ class calendar_uilist extends calendar_ui
 				$app_id = $matches[2];
 				$id = null;
 			}
-			else
+			elseif(is_string($id))
 			{
 				list($id,$recur_date) = explode(':',$id);
 			}
@@ -719,7 +719,7 @@ class calendar_uilist extends calendar_ui
 					if($settings == 'series')
 					{
 						// Delete the whole thing
-						$recur_date = 0;
+						$recur_date = null;
 					}
 					if ($id && $this->bo->delete($id, $recur_date,false,$skip_notification))
 					{
@@ -729,7 +729,7 @@ class calendar_uilist extends calendar_ui
 							// If there are multiple events in a series selected, the next one could purge
 							foreach($checked as $key => $c_id)
 							{
-								list($c_id,$recur_date) = explode(':',$c_id);
+								list($c_id, $recur_date) = explode(':', is_string($c_id) ? $c_id : $c_id['row_id']);
 								if($c_id == $id)
 								{
 									unset($checked[$key]);
