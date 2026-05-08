@@ -42,12 +42,33 @@ abstract class CalDAVTest extends TestCase
 	 */
 	protected function url($path='/')
 	{
+		return $this->getCaldavBaseUrl() . $path;
+	}
+
+	/**
+	 * Get CalDAV base URL with optional local overrides
+	 *
+	 * Override order:
+	 * 1) EGW_CALDAV_BASE environment or phpunit var
+	 * 2) EGW_URL environment or phpunit var (+ /groupdav.php)
+	 * 3) self::CALDAV_BASE (with EGW_DOMAIN localhost replacement for legacy behavior)
+	 *
+	 * @return string
+	 */
+	protected function getCaldavBaseUrl()
+	{
+		$egw_url = getenv('EGW_URL') ?: ($_ENV['EGW_URL'] ?? null) ?: ($GLOBALS['EGW_URL'] ?? null);
+		if(!empty($egw_url))
+		{
+			return rtrim($egw_url, '/') . '/groupdav.php';
+		}
+
 		$base = self::CALDAV_BASE;
 		if (!empty($GLOBALS['EGW_DOMAIN']) && $GLOBALS['EGW_DOMAIN'] !== 'default')
 		{
 			$base = str_replace('localhost', $GLOBALS['EGW_DOMAIN'], $base);
 		}
-		return $base.$path;
+		return rtrim($base, '/');
 	}
 
 	/**
