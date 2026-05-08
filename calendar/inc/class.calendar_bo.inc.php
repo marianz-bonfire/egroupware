@@ -715,7 +715,7 @@ class calendar_bo
 			{
 				$daysEvents[$ts->format('Ymd')] = array();
 			}
-			$one_second = new DateInterval('P1S');
+			$one_second = new DateInterval('PT1S');
 			foreach($events as $k => $event)
 			{
 				$e_start = max($event['start'], $start);

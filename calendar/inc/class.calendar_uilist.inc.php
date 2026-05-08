@@ -325,7 +325,9 @@ class calendar_uilist extends calendar_ui
 				break;
 			case 'custom':
 				$this->first = $search_params['start'] = Api\DateTime::to($params['startdate'],'ts');
-				$this->last  = $search_params['end'] = strtotime('+1 day', $this->bo->date2ts($params['enddate']))-1;
+				$end = new Api\DateTime($params['enddate']);
+				$end->setTime(23, 59, 59);
+				$this->last  = $search_params['end'] = $end->format('ts');
 				$label = $this->bo->long_date($this->first,$this->last);
 				break;
 			case 'today':
@@ -908,18 +910,20 @@ class calendar_uilist extends calendar_ui
 			switch($nm['filter'])
 			{
 				case 'after':
-					$checked['start'] = $nm['startdate'] ? $nm['startdate'] : strtotime('today');
+					$checked['start'] = $nm['startdate'] ? $nm['startdate'] : Api\DateTime::to('today', 'ts');
 					break;
 				case 'before':
-					$checked['end'] = $nm['enddate'] ? $nm['enddate'] : strtotime('tomorrow');
+					$end = new Api\DateTime('today');
+					$end->modify('+1 day');
+					$checked['end'] = $nm['enddate'] ? $nm['enddate'] : $end->format('ts');
 					break;
 				case 'custom':
 					$checked['start'] = $nm['startdate'];
 					$checked['end'] = $nm['enddate'];
 					break;
 				default:
-					$date = date_create_from_format('Ymd',$this->date);
-					$checked['start']= $date->format('U');
+					$date = new Api\DateTime($this->date);
+					$checked['start']= $date->format('ts');
 			}
 		}
 		return $checked;
